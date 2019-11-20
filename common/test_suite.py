@@ -1,13 +1,14 @@
 import unittest
-from .backend_client import BackendClient
 import os
 import configparser
 
-class BackendSuite(unittest.TestCase):
+class TestSuite(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        conf = cls.readConfig()
-        cls.client = BackendClient(conf['backend']['host'], conf['backend']['key'])
+        pass
+
+    def setUp(self):
+        pass
 
     @staticmethod
     def readConfig():
@@ -18,7 +19,3 @@ class BackendSuite(unittest.TestCase):
         cp.read(config_file)
 
         return cp
-
-
-    # @staticmethod
-    # def assertDictContainsSubset(self, subset, dictionary, msg=None):

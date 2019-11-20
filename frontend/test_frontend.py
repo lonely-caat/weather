@@ -1,36 +1,47 @@
-from selenium import webdriver
+from weather.frontend.page_object import PageObject
+
+class FrontendTest(PageObject):
 
 
-baseurl = "https://en.wiktionary.org/"
-apple_expected_string = 'A common, round fruit produced by the tree Malus domestica, cultivated in temperate climates.'
-pear_expected_string = 'An edible fruit produced by the pear tree, similar to an apple but elongated towards the stem'
+    def test_apple(self):
+        """
+        Steps:
+        1. Go to the main page of the application
+        2. In the top 'Search' input field enter 'Apple' and hit 'Enter'
+
+        Expected Result:
+        Verify 'A common, round fruit produced by the tree Malus domestica, cultivated in temperate climates.'
+        string is present in in the word definitions section
+
+        """
+        apple_expected_string = 'A common, round fruit produced by the tree Malus domestica, cultivated in temperate climates.'
+
+        self.input_data(self.xpaths['search'], 'apple')
+
+        ## Search for the list of word definitions
+        definitions = [x.text for x in self.wd.find_elements_by_xpath(self.xpaths['list_of_definitions'])]
+    
+        ## Check if the expected string is a part of the ol
+        self.assertIn(apple_expected_string, definitions[0], "{0} not found on the page!".format(apple_expected_string))
 
 
-xpaths = { 'search' : '//*[@name="search"]',
-           'list_of_definitions' : "//ol",
-           'submitButton' :   "//input[@name='login']"
-         }
-## Fire it up! 
-mydriver = webdriver.Chrome()
-mydriver.get(baseurl)
+    def test_pear(self):
+        """
+        Steps:
+        1. Go to the main page of the application
+        2. In the top 'Search' input field enter 'Apple' and hit 'Enter'
 
-## First search input is ok
-mydriver.find_element_by_xpath(xpaths['search']).send_keys("apple")
-## hit that 'Enter' button
-mydriver.find_element_by_xpath(xpaths['search']).send_keys(u'\ue007')
-## we have a HTML ordered list let's convert it to python list of strings 
-definitions = [x.text for x in mydriver.find_elements_by_xpath(xpaths['list_of_definitions'])]
+        Expected Result:
+        Verify 'An edible fruit produced by the pear tree, similar to an apple but elongated towards the stem'
+        string is present in in the word definitions section
 
-## Check if the expected string is a part of the ol
-assert apple_expected_string in definitions[0], "{0} not found on the page!".format(apple_expected_string)
+        """
 
-## go back to main page and repeat all the steps for the pear 
-mydriver.get(baseurl)
-mydriver.find_element_by_xpath(xpaths['search']).send_keys("pear")
-mydriver.find_element_by_xpath(xpaths['search']).send_keys(u'\ue007')
-definitions = [x.text for x in mydriver.find_elements_by_xpath(xpaths['list_of_definitions'])]
+        pear_expected_string = 'An edible fruit produced by the pear tree, similar to an apple but elongated towards the stem'
+        self.input_data(self.xpaths['search'], 'pear')
 
-assert pear_expected_string in definitions[0], "{0} not found on the page!".format(pear_expected_string)
+        ## Search for the list of word definitions
+        definitions = [x.text for x in self.wd.find_elements_by_xpath(self.xpaths['list_of_definitions'])]
 
-print("Done!")
-mydriver.quit()
+        ## Check if the expected string is a part of the ol
+        self.assertIn(pear_expected_string, definitions[0], "{0} not found on the page!".format(pear_expected_string))

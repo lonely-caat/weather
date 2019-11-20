@@ -1,4 +1,4 @@
-from .backend_suite import BackendSuite
+from weather.backend.backend_suite import BackendSuite
 
 
 class BackendTest(BackendSuite):

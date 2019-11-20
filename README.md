@@ -20,7 +20,8 @@ https://www.seleniumhq.org/download/
 
 Run tests:
 ```
-pytest ~/weather/backend2/backend_test.py
+pytest ~/weather/backend/backend_test.py
+pytest ~/weather/backend/frontend_test.py
 ```
 Step-by-step installation on localhost:
 ```
@@ -31,7 +32,5 @@ $ virtualenv --python=python3.7 venv/
 $ source venv/bin/activate
 (venv)$ pip install -U pip setuptools
 (venv)$ python3 setup.py install
-(venv)$ pytest backend2/backend_test.py
-! for the ui tests for now just run 
-python3 frontend/test_frontend.py
+(venv)$ pytest backend/backend_test.py
 ```
